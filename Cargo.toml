@@ -1,0 +1,9 @@
+[package]
+name = "xenon"
+description = "The Xenon Toolchain"
+authors = ["Liam Greenway <Discord@ApplePieOnRye>"]
+repository = "https://github.com/ApplePieCodes/xenon"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
