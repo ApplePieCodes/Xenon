@@ -1,4 +1,5 @@
-use std::{env, fs::File, path::{Path, PathBuf}};
+use std::{env, fs::{self, File}, io::Write, path::{Path, PathBuf}};
+
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -41,8 +42,17 @@ fn make_project(args: Vec<String>) {
         })
     };
 
-    make_file(project_dir.join(Path::new("Project.toml")));
-    
+    if ! fs::exists(project_dir.clone()).unwrap() {
+        fs::create_dir(project_dir.clone()).unwrap();
+    }
+
+    let mut project_file = make_file(project_dir.join(Path::new("Project.toml")));
+    project_file.write_fmt(format_args!("[project]\nname = \"{}\"\nversion = \"0.0.1\"", args[2])).unwrap();
+    fs::create_dir(project_dir.join(Path::new("src"))).unwrap();
+    let mut main_file = make_file(project_dir.join(Path::new("src/main.xe")));
+    main_file.write_fmt(format_args!("use std;\n\nnamespace {} {{\n    void main() {{\n    \n    }}\n}}", args[2])).unwrap();
+
+    println!("Project {} created", args[2]);
 }
 
 
